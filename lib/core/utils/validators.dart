@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+
+class Validator {
+  // ===== Required Field =====
+  static String? required(String? value, {String fieldName = 'This field'}) {
+    if (value == null || value.trim().isEmpty) {
+      return '$fieldName is required';
+    }
+    return null;
+  }
+
+  // ===== Email Validator =====
+  static String? email(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Email is required';
+    }
+
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(value.trim())) {
+      return 'Please enter a valid email address';
+    }
+    return null;
+  }
+
+  // ===== Password Strength Validator =====
+  static String? password(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters';
+    }
+
+    final hasUpper = value.contains(RegExp(r'[A-Z]'));
+    final hasLower = value.contains(RegExp(r'[a-z]'));
+    final hasDigit = value.contains(RegExp(r'[0-9]'));
+
+    if (!hasUpper || !hasLower || !hasDigit) {
+      return 'Password must contain uppercase, lowercase, and a number';
+    }
+
+    return null;
+  }
+
+  // ===== Confirm Password Validator =====
+  static String? confirmPassword(String? value, String? original) {
+    if (value == null || value.isEmpty) {
+      return 'Please confirm your password';
+    }
+    if (value != original) {
+      return 'Passwords do not match';
+    }
+    return null;
+  }
+
+  // ===== Minimum Length Validator =====
+  static String? minLength(String? value, int min, {String? fieldName}) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Field'} is required';
+    }
+    if (value.length < min) {
+      return '${fieldName ?? 'Field'} must be at least $min characters';
+    }
+    return null;
+  }
+}
